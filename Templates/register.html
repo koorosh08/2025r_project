@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth">
+  <h2>Create account</h2>
+  <form method="post">
+    <label>Username</label>
+    <input name="username" required minlength="3" />
+    <label>Password</label>
+    <input type="password" name="password" required minlength="6" />
+    <button class="btn" type="submit">Sign up</button>
+  </form>
+</div>
+{% endblock %}

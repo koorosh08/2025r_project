@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="meta">
+  <div>Showing <b>{{ items|length }}</b> items</div>
+  <div>Next refresh: <b>{{ next_refresh.strftime("%Y-%m-%d %I:%M %p") }}</b></div>
+</div>
+
+<div class="grid">
+  {% for it in items %}
+    <div class="card rarity-{{ (it.rarity or 'unknown')|lower }}" data-name="{{ it.name }}">
+      <div class="imgwrap">
+        {% if it.image %}
+          <img src="{{ it.image }}" alt="{{ it.name }}">
+        {% else %}
+          <div class="placeholder">No Image</div>
+        {% endif %}
+      </div>
+
+      <div class="info">
+        <div class="name" title="{{ it.name }}">{{ it.name }}</div>
+        <div class="sub">
+          <span class="pill">{{ it.section }}</span>
+          {% if it.type %}<span class="pill">{{ it.type }}</span>{% endif %}
+          {% if it.rarity %}<span class="pill">{{ it.rarity }}</span>{% endif %}
+        </div>
+
+        <div class="bottom">
+          <div class="price">
+            {% if it.price is not none %}
+              {{ it.price }} V-Bucks
+            {% else %}
+              —
+            {% endif %}
+          </div>
+
+          <button class="wish"
+                  data-offer="{{ it.offer_id }}"
+                  data-name="{{ it.name|e }}"
+                  data-price="{{ it.price }}"
+                  data-rarity="{{ it.rarity|e }}"
+                  data-image="{{ it.image|e }}"
+                  {% if not current_user.is_authenticated %} disabled title="Login to use wishlist"{% endif %}
+          >
+            {% if it.offer_id in wishlist_offer_ids %}
+              ★
+            {% else %}
+              ☆
+            {% endif %}
+          </button>
+        </div>
+
+        {% if it.description %}
+          <div class="desc">{{ it.description }}</div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  async function toggleWishlist(btn) {
+    const payload = {
+      offer_id: btn.dataset.offer,
+      name: btn.dataset.name,
+      price: btn.dataset.price ? Number(btn.dataset.price) : null,
+      rarity: btn.dataset.rarity,
+      image: btn.dataset.image
+    };
+
+    const res = await fetch("{{ url_for('toggle_wishlist') }}", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) return;
+
+    const data = await res.json();
+    btn.textContent = data.in_wishlist ? "★" : "☆";
+  }
+
+  document.querySelectorAll(".wish:not([disabled])").forEach(btn => {
+    btn.addEventListener("click", () => toggleWishlist(btn));
+  });
+</script>
+{% endblock %}

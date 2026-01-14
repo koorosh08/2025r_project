@@ -1,0 +1,167 @@
+:root {
+  --bg: #0b0f1a;
+  --card: #11182a;
+  --text: #e7ecff;
+  --muted: #9aa7d6;
+  --accent: #ff8a2a;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 20% 0%, #1a2a7a 0%, var(--bg) 55%);
+  color: var(--text);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  background: rgba(10,14,25,.65);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo-dot {
+  width: 14px; height: 14px; border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(255,138,42,.15);
+}
+.title { font-weight: 800; letter-spacing: .2px; }
+.subtitle { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+.actions { display: flex; align-items: center; gap: 10px; }
+
+.search {
+  width: min(420px, 46vw);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.10);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 999px;
+  outline: none;
+}
+
+.btn {
+  background: var(--accent);
+  color: #1b140e;
+  font-weight: 700;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.btn.secondary {
+  background: rgba(255,255,255,.08);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.container { padding: 18px; max-width: 1250px; margin: 0 auto; }
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 16px;
+  color: var(--muted);
+}
+
+.flashes { display: grid; gap: 10px; margin: 10px 0 16px; }
+.flash {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+}
+.flash.success { border-color: rgba(64, 255, 160, .25); }
+.flash.error { border-color: rgba(255, 90, 90, .25); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: rgba(17, 24, 42, .92);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,.08);
+  transition: transform .12s ease, border-color .12s ease;
+}
+.card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.16); }
+
+.imgwrap { height: 180px; display: grid; place-items: center; background: rgba(255,255,255,.04); }
+.imgwrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.placeholder { color: var(--muted); }
+
+.info { padding: 12px; display: grid; gap: 8px; }
+.name { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+}
+
+.bottom { display: flex; justify-content: space-between; align-items: center; }
+.price { font-weight: 800; }
+.desc { color: var(--muted); font-size: 12px; line-height: 1.35; max-height: 3.9em; overflow: hidden; }
+
+.wish {
+  width: 42px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+}
+.wish:disabled { opacity: .45; cursor: not-allowed; }
+
+.auth {
+  max-width: 420px;
+  margin: 30px auto;
+  background: rgba(17,24,42,.92);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+.auth h2 { margin: 0 0 12px; }
+.auth form { display: grid; gap: 10px; }
+.auth input {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  outline: none;
+}
+
+/* rarity border colors (you can tweak to match Fortnite rarities) */
+.rarity-common { border-color: rgba(170,170,170,.35); }
+.rarity-uncommon { border-color: rgba(80,255,140,.35); }
+.rarity-rare { border-color: rgba(80,140,255,.40); }
+.rarity-epic { border-color: rgba(200,120,255,.45); }
+.rarity-legendary { border-color: rgba(255,170,60,.50); }
+.rarity-unknown { border-color: rgba(255,255,255,.10); }

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fortnite Shop Sim</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="title">Item Shop Sim</div>
+        <div class="subtitle">Refresh @ 8:00 PM (Toronto)</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <input id="search" class="search" placeholder="Search cosmetics..." />
+
+      {% if current_user.is_authenticated %}
+        <a class="btn" href="{{ url_for('wishlist') }}">Wishlist</a>
+        <a class="btn secondary" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login') }}">Login</a>
+        <a class="btn secondary" href="{{ url_for('register') }}">Sign Up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    // Simple client-side search filtering
+    const search = document.getElementById("search");
+    if (search) {
+      search.addEventListener("input", () => {
+        const q = search.value.toLowerCase().trim();
+        document.querySelectorAll("[data-name]").forEach(card => {
+          const name = (card.getAttribute("data-name") || "").toLowerCase();
+          card.style.display = name.includes(q) ? "" : "none";
+        });
+      });
+    }
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

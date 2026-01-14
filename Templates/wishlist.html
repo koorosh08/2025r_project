@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="meta">
+  <div>Your wishlist: <b>{{ items|length }}</b> items</div>
+  <a class="btn secondary" href="{{ url_for('shop') }}">Back to shop</a>
+</div>
+
+<div class="grid">
+  {% for w in items %}
+    <div class="card rarity-{{ (w.rarity or 'unknown')|lower }}">
+      <div class="imgwrap">
+        {% if w.image %}
+          <img src="{{ w.image }}" alt="{{ w.name }}">
+        {% else %}
+          <div class="placeholder">No Image</div>
+        {% endif %}
+      </div>
+      <div class="info">
+        <div class="name">{{ w.name }}</div>
+        <div class="sub">
+          {% if w.rarity %}<span class="pill">{{ w.rarity }}</span>{% endif %}
+        </div>
+        <div class="bottom">
+          <div class="price">
+            {% if w.price is not none %}{{ w.price }} V-Bucks{% else %}—{% endif %}
+          </div>
+          <button class="wish" data-offer="{{ w.offer_id }}" data-name="{{ w.name|e }}">Remove</button>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  async function removeItem(btn) {
+    const res = await fetch("{{ url_for('toggle_wishlist') }}", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({offer_id: btn.dataset.offer, name: btn.dataset.name})
+    });
+    if (res.ok) location.reload();
+  }
+
+  document.querySelectorAll(".wish").forEach(btn => {
+    btn.addEventListener("click", () => removeItem(btn));
+  });
+</script>
+{% endblock %}
