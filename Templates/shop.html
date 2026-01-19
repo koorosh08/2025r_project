@@ -11,7 +11,10 @@
     <div class="card rarity-{{ (it.rarity or 'unknown')|lower }}" data-name="{{ it.name }}">
       <div class="imgwrap">
         {% if it.image %}
-          <img src="{{ it.image }}" alt="{{ it.name }}">
+         <img src="{{ it.image }}" alt="{{ it.name }}" loading="lazy"
+     referrerpolicy="no-referrer"
+     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;placeholder&quot;>No Image</div>';">
+
         {% else %}
           <div class="placeholder">No Image</div>
         {% endif %}
